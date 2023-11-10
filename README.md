@@ -14,6 +14,7 @@ Features:
   - Enter the url
   - Shortens the url to 4 characters including uppercase alphabets, lowelcase alphabets and numbers
   - Store the urls in database
+  - Count the number of clicks of the url
   - Search for the urls from the history
 
 Deployed on pythonanywhere
