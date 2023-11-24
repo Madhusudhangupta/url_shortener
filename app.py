@@ -25,17 +25,22 @@ def index():
             flash('Please insert an url!')
             return redirect(url_for('index'))
 
-        url_data = conn.execute('INSERT INTO urls (original_url) VALUES (?)',
-                                (url,))
-        conn.commit()
+        existing_url_data = conn.execute('SELECT * FROM URLS WHERE original_url = ?', (url,)).fetchone()
+
+        if existing_url_data:
+            url_id = existing_url_data['id']
+            hashid = hashids.encode(url_id)
+            short_url = request.host_url + hashid
+        else:
+            url_data = conn.execute('INSERT INTO URLS (original_url) VALUES (?)',
+                                    (url,))
+            conn.commit()
+            url_id = url_data.lastrowid
+            hashid = hashids.encode(url_id)
+            short_url = request.host_url + hashid
+
         conn.close()
-
-        url_id = url_data.lastrowid
-        hashid = hashids.encode(url_id)
-        short_url = request.host_url + hashid
-
         return render_template('index.html', short_url=short_url)
-
     return render_template('index.html')
 
 
