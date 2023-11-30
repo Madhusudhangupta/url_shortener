@@ -2,7 +2,7 @@
 
 Welcome to the Flask URL Shortener web application.
 
-Link: https://urlshort1.pythonanywhere.com/
+Link: https://urlshort2.pythonanywhere.com/
 
 Create a virtual environment.
 
