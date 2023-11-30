@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'somerandomstring'
 hashids = Hashids(min_length=4, salt=app.config['SECRET_KEY'])
 
 
-@app.route('/', methods=('GET', 'POST'))
+@app.route('/', methods=['GET', 'POST'])
 def index():
     conn = get_db_connection()
 
@@ -22,7 +22,7 @@ def index():
         url = request.form['url']
 
         if not url:
-            flash('Please insert an url!')
+            flash('PLease insert url!')
             return redirect(url_for('index'))
 
         existing_url_data = conn.execute('SELECT * FROM URLS WHERE original_url = ?', (url,)).fetchone()
@@ -31,10 +31,12 @@ def index():
             url_id = existing_url_data['id']
             hashid = hashids.encode(url_id)
             short_url = request.host_url + hashid
+
         else:
             url_data = conn.execute('INSERT INTO URLS (original_url) VALUES (?)',
                                     (url,))
             conn.commit()
+
             url_id = url_data.lastrowid
             hashid = hashids.encode(url_id)
             short_url = request.host_url + hashid
